@@ -8,3 +8,5 @@ include:
     artifact-name: crosses_54_right
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: nice_nano
+    shield: settings_reset
