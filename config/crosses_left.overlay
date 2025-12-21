@@ -1,10 +1,6 @@
 #include "crosses_trackball_shared.dtsi"
 
-/* Enable listener for left (peripheral) trackball */
-&tb_left_listener {
-  status = "okay";
-};
-
+/* SPI pin configuration */
 &pinctrl {
   spi_tb_default: spi_tb_default {
     group1 {
@@ -36,7 +32,7 @@
 
   cs-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>; /* P1.00 */
 
-  tb_right: tb_right@0 {
+  tb_left: tb_left@0 {
     compatible = "pixart,pmw3610";
     reg = <0>;
     spi-max-frequency = <2000000>;
@@ -49,21 +45,11 @@
 
     cpi = <700>;
     force-awake;
-
-    /* If direction feels wrong, enable as needed */
-    /* xy-swap; */
-    /* x-invert; */
-    /* y-invert; */
   };
 };
 
-/* Enable central trackball */
-&tb_right_listener {
-  status = "okay";
-  device = <&tb_right>;
-};
-
-/* Tell the split proxy to use the left sensor */
+/* Forward left trackball to central */
 &tb_left_split {
   device = <&tb_left>;
 };
+
