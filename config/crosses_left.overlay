@@ -1,25 +1,66 @@
 #include "crosses_trackball_shared.dtsi"
 
-/* You MUST replace spiX, cs pin, and irq pin with real ones from the Crosses wiki pinout */
-&spiX {
+/* Enable listener for left (peripheral) trackball */
+&tb_left_listener {
   status = "okay";
-  cs-gpios = <&gpioY CS_PIN GPIO_ACTIVE_LOW>;
+};
 
-  tb_left: tb_left@0 {
-    status = "okay";
+&pinctrl {
+  spi_tb_default: spi_tb_default {
+    group1 {
+      psels = <
+        NRF_PSEL(SPIM_SCK, 0, 17)
+        NRF_PSEL(SPIM_MOSI, 0, 20)
+        NRF_PSEL(SPIM_MISO, 0, 6)
+      >;
+    };
+  };
+
+  spi_tb_sleep: spi_tb_sleep {
+    group1 {
+      psels = <
+        NRF_PSEL(SPIM_SCK, 0, 17)
+        NRF_PSEL(SPIM_MOSI, 0, 20)
+        NRF_PSEL(SPIM_MISO, 0, 6)
+      >;
+      low-power-enable;
+    };
+  };
+};
+
+&spi1 {
+  status = "okay";
+  pinctrl-0 = <&spi_tb_default>;
+  pinctrl-1 = <&spi_tb_sleep>;
+  pinctrl-names = "default", "sleep";
+
+  cs-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>; /* P1.00 */
+
+  tb_right: tb_right@0 {
     compatible = "pixart,pmw3610";
     reg = <0>;
     spi-max-frequency = <2000000>;
-    irq-gpios = <&gpioZ IRQ_PIN (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+
+    irq-gpios = <&gpio0 22 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 
     evt-type = <INPUT_EV_REL>;
     x-input-code = <INPUT_REL_X>;
     y-input-code = <INPUT_REL_Y>;
 
-    /* Optional tuning */
     cpi = <700>;
     force-awake;
+
+    /* If direction feels wrong, enable as needed */
+    /* xy-swap; */
+    /* x-invert; */
+    /* y-invert; */
   };
+};
+
+/* Enable central trackball */
+&tb_right_listener {
+  status = "okay";
+  device = <&tb_right>;
 };
 
 /* Tell the split proxy to use the left sensor */
