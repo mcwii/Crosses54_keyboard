@@ -1,0 +1,28 @@
+#include "crosses_trackball_shared.dtsi"
+
+/* You MUST replace spiX, cs pin, and irq pin with real ones from the Crosses wiki pinout */
+&spiX {
+  status = "okay";
+  cs-gpios = <&gpioY CS_PIN GPIO_ACTIVE_LOW>;
+
+  tb_left: tb_left@0 {
+    status = "okay";
+    compatible = "pixart,pmw3610";
+    reg = <0>;
+    spi-max-frequency = <2000000>;
+    irq-gpios = <&gpioZ IRQ_PIN (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+
+    evt-type = <INPUT_EV_REL>;
+    x-input-code = <INPUT_REL_X>;
+    y-input-code = <INPUT_REL_Y>;
+
+    /* Optional tuning */
+    cpi = <700>;
+    force-awake;
+  };
+};
+
+/* Tell the split proxy to use the left sensor */
+&tb_left_split {
+  device = <&tb_left>;
+};
