@@ -1,4 +1,9 @@
 #include "crosses_trackball_shared.dtsi"
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+evt-type = <INPUT_EV_REL>;
+x-input-code = <INPUT_REL_X>;
+y-input-code = <INPUT_REL_Y>;
 
 /* Enable listener for left (peripheral) trackball */
 &tb_left_listener {
