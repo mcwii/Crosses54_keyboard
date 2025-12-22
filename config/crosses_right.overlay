@@ -14,7 +14,7 @@
 /* Central consumes forwarded peripheral events */
 &tb_left_listener {
   status = "okay";
-}
+};
 
 &pinctrl {
   spi_tb_default: spi_tb_default {
