@@ -55,6 +55,17 @@
     };
 };
 
+/* Peripheral: enable the split and attach it to the local physical sensor */
+&tb_left_split {
+  status = "okay";
+  device = <&tb_left_sensor>; /* replace &tb_left_sensor with the actual PMW node name on the left side */
+};
+
+&tb_left_listener {
+    status = "okay";
+    /* device property already set above via tb_left_split on this side */
+}
+
 /* Listeners */
 &tb_left_listener {
     status = "okay";

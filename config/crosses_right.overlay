@@ -6,6 +6,16 @@
   status = "okay";
 };
 
+/* Make the tb_left_split visible on the central core (no device binding here) */
+&tb_left_split {
+  status = "okay";
+};
+
+/* Central consumes forwarded peripheral events */
+&tb_left_listener {
+  status = "okay";
+}
+
 &pinctrl {
   spi_tb_default: spi_tb_default {
     group1 {
@@ -57,6 +67,12 @@
     /* y-invert; */
   };
 };
+
+/* Central local sensor listener — bind to your central PMW node (replace &tb_central_sensor if different) */
+&tb_right_listener {
+  status = "okay";
+  device = <&tb_central_sensor>; /* replace &tb_central_sensor with your local PMW node name */
+}
 
 /* Enable central trackball */
 &tb_right_listener {

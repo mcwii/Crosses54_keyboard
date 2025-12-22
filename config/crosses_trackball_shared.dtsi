@@ -13,7 +13,6 @@
   tb_left_listener: tb_left_listener {
     compatible = "zmk,input-listener";
     status = "disabled";
-    device = <&tb_left_split>;
   };
 
   tb_right_listener: tb_right_listener {
