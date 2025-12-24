@@ -28,47 +28,36 @@
 /* SPI configuration and trackball settings */
 &spi1 {
     status = "okay";
-    pinctrl-0 = <&spi_tb_default>;
-    pinctrl-1 = <&spi_tb_sleep>;
-    pinctrl-names = "default", "sleep";
+                tb_left_sensor: tb_left_sensor@0 {
+                    compatible = "pixart,pmw3610";
+                    reg = <0>;
+                    spi-max-frequency = <2000000>;
 
-    cs-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>; /* P1.00 */
+                    irq-gpios = <&gpio0 22 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 
-    tb_right: tb_right@0 {
-        compatible = "pixart,pmw3610";
-        reg = <0>;
-        spi-max-frequency = <2000000>;
+                    evt-type = <INPUT_EV_REL>;
+                    x-input-code = <INPUT_REL_X>;
+                    y-input-code = <INPUT_REL_Y>;
 
-        irq-gpios = <&gpio0 22 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+                    cpi = <700>;
+                    force-awake;
 
-        evt-type = <INPUT_EV_REL>;
-        x-input-code = <INPUT_REL_X>;
-        y-input-code = <INPUT_REL_Y>;
-
-        cpi = <700>;
-        force-awake;
+                    /* Uncomment if direction adjustments are needed */
+                    /* xy-swap; */
+                    /* x-invert; */
+                    /* y-invert; */
+                };
 
         /* Uncomment if direction adjustments are needed */
-        /* xy-swap; */
-        /* x-invert; */
-        /* y-invert; */
-    };
-};
+            /* Peripheral: enable the split and attach it to the local physical sensor */
+            &tb_left_split {
+                status = "okay";
+                device = <&tb_left_sensor>;
+            };
 
-/* Peripheral: enable the split and attach it to the local physical sensor */
-&tb_left_split {
-  status = "okay";
-  device = <&tb_left_sensor>; /* replace &tb_left_sensor with the actual PMW node name on the left side */
-};
-
-&tb_left_listener {
-    status = "okay";
-    /* device property already set above via tb_left_split on this side */
-}
-
-/* Listeners */
-&tb_left_listener {
-    status = "okay";
+            &tb_left_listener {
+                status = "okay";
+            };
 };
 
 &tb_right_listener {
