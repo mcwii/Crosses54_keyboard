@@ -59,7 +59,3 @@
     status = "okay";
 };
 
-&tb_right_listener {
-    status = "okay";
-    device = <&tb_right>;
-};

@@ -4,6 +4,7 @@
 /* Enable listener for left (peripheral) trackball */
 &tb_left_listener {
   status = "okay";
+  device = <&tb_left_split>;
 };
 
 /* Make the tb_left_split visible on the central core (no device binding here) */
