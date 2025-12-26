@@ -57,5 +57,6 @@
 
 &tb_left_listener {
     status = "okay";
+    device = <&tb_left_split>;
 };
 
