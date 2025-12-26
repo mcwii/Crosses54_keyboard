@@ -47,17 +47,16 @@
                     /* x-invert; */
                     /* y-invert; */
                 };
+        };
 
-        /* Uncomment if direction adjustments are needed */
-            /* Peripheral: enable the split and attach it to the local physical sensor */
-            &tb_left_split {
-                status = "okay";
-                device = <&tb_left_sensor>;
-            };
+/* Peripheral: enable the split and attach it to the local physical sensor */
+&tb_left_split {
+    status = "okay";
+    device = <&tb_left_sensor>;
+};
 
-            &tb_left_listener {
-                status = "okay";
-            };
+&tb_left_listener {
+    status = "okay";
 };
 
 &tb_right_listener {
