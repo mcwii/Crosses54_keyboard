@@ -1,6 +1,6 @@
 # Crosses 54 firmware build findings
 
-**Recorded:** 2026-09-28  
+**Recorded:** 2026-09-28
 **Status:** The firmware configuration builds successfully in GitHub Actions. The
 firmware has not been tested on the physical keyboard as part of this
 investigation.
